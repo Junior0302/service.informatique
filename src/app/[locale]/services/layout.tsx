@@ -13,7 +13,7 @@ export async function generateMetadata({
   const safeLocale = getServicesLocale(locale);
 
   return {
-    title: `Genesis Services | ${site.home.title}`,
+    title: `Genesis Service Informatique | ${site.home.title}`,
     description: site.home.description,
     alternates: {
       canonical: `/${safeLocale}/services`,
@@ -31,8 +31,8 @@ export default async function ServicesLayout({
   const { locale } = await params;
 
   return (
-    <div className="-ml-[var(--content-start)] w-[calc(100%+var(--content-start))] bg-[#140d0a]">
-      <div className="px-6 pt-28 md:px-12 md:pt-32">
+    <div className="min-h-screen bg-[#140d0a]">
+      <div className="px-6 pt-8 md:px-12 md:pt-10">
         <ServicesSiteHeader locale={locale} />
       </div>
       {children}

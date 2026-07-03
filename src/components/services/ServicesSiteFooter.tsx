@@ -10,7 +10,7 @@ export default function ServicesSiteFooter({ locale }: { locale: string }) {
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-10 md:px-12 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-2xl">
           <p className="text-[10px] uppercase tracking-[0.28em] text-[#D7B07A]">
-            Genesis Services
+            Genesis Service Informatique
           </p>
           <p className="mt-4 font-serif text-3xl leading-tight text-[#FAF9F6] md:text-4xl">
             {site.home.finalTitle}

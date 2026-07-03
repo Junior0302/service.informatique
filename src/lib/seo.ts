@@ -4,7 +4,7 @@ export type SeoLocale = "fr" | "en" | "zh";
 
 export const siteUrl =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://www.genesisconnectstudio.com";
-export const siteName = "Genesis Connect";
+export const siteName = "Genesis Service Informatique";
 export const businessEmail = "contact@genesisconnectstudio.com";
 export const helpEmail = "hello@genesisconnectstudio.com";
 export const businessPhone = "+33 0 00 00 00 00";
@@ -240,21 +240,21 @@ export const pageSeo: Record<
   "/": {
     fr: {
       title:
-        "Genesis Connect | Depannage informatique, maintenance, creation de site internet et SEO local",
+        "Genesis Service Informatique | Installation de postes, assistance et maintenance sur site",
       description:
-        "Genesis Connect accompagne les entreprises, independants et associations en depannage informatique, maintenance, assistance, cybersécurité, creation de site internet, SEO local, Google Business Profile et transformation numerique.",
+        "Genesis Service Informatique accompagne les entreprises, independants et associations pour l'installation de postes recents, l'assistance utilisateur, la maintenance de parc, le cablage reseau, le Wi-Fi et la sauvegarde.",
     },
     en: {
       title:
-        "Genesis Connect | IT support, maintenance, web development and local SEO",
+        "Genesis IT Services | Workstation installation, support and on-site maintenance",
       description:
-        "Genesis Connect helps companies, founders and associations with IT support, maintenance, cybersecurity, website creation, local SEO, Google Business Profile and digital transformation.",
+        "Genesis IT Services supports companies and small organizations with workstation deployment, user assistance, maintenance, cabling, Wi-Fi and backup setup.",
     },
     zh: {
       title:
-        "Genesis Connect | IT 支持、维护、网站开发与本地 SEO",
+        "Genesis IT Services | 现场安装、支持与维护",
       description:
-        "Genesis Connect 为企业、创业者与协会提供 IT 支持、维护、网络安全、网站建设、本地 SEO、Google Business Profile 与数字化转型服务。",
+        "Genesis IT Services 为企业与小型组织提供工位安装、用户支持、维护、布线、Wi-Fi 与备份服务。",
     },
   },
   "/expertise": {
@@ -476,11 +476,11 @@ export const defaultSEO: Metadata = {
   themeColor: "#2A1C15",
   title: {
     default:
-      "Genesis Connect | Depannage informatique, maintenance, site internet et SEO local",
-    template: "%s | Genesis Connect",
+      "Genesis Service Informatique | Installation, assistance et maintenance sur site",
+    template: "%s | Genesis Service Informatique",
   },
   description:
-    "Genesis Connect accompagne les entreprises, independants et associations avec des services de depannage informatique, maintenance, cybersécurité, sauvegarde, cloud, creation de site internet, developpement web, SEO local, GEO SEO et AI Search Optimization en France, en Suisse, aux Etats-Unis et a distance.",
+    "Genesis Service Informatique accompagne les entreprises, independants et associations avec des interventions terrain: installation de postes, assistance utilisateur, maintenance, cablage reseau, Wi-Fi, sauvegarde et remise en condition de parc.",
   keywords: [
     siteName,
     ...localServiceKeywords,
@@ -523,9 +523,9 @@ export const defaultSEO: Metadata = {
     url: siteUrl,
     siteName,
     title:
-      "Genesis Connect | Depannage informatique, maintenance, site internet et SEO local",
+      "Genesis Service Informatique | Installation, assistance et maintenance sur site",
     description:
-      "Support informatique, maintenance, cybersécurité, cloud, creation de site internet, developpement web, SEO local et optimisation pour les moteurs de recherche IA en France, Suisse et Etats-Unis.",
+      "Interventions terrain en support informatique: postes recents, assistance utilisateur, maintenance, cablage reseau, Wi-Fi et sauvegarde.",
     images: [
       {
         url: absoluteUrl("/opengraph-image"),
@@ -538,9 +538,9 @@ export const defaultSEO: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Genesis Connect | Depannage informatique, maintenance, site internet et SEO local",
+      "Genesis Service Informatique | Installation, assistance et maintenance sur site",
     description:
-      "Genesis Connect aide les entreprises avec support informatique, web, SEO local, cloud, cybersécurité et AI search optimization.",
+      "Genesis Service Informatique aide les entreprises avec installation de postes, assistance, maintenance, reseau et sauvegarde.",
     images: [absoluteUrl("/twitter-image")],
   },
   robots: {

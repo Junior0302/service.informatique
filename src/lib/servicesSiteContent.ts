@@ -10,6 +10,14 @@ export type ServicesStepItem = {
   text: string;
 };
 
+export type ServicesShowcaseItem = {
+  tag: string;
+  title: string;
+  text: string;
+  image: string;
+  alt: string;
+};
+
 export type ServicesServiceItem = {
   slug: string;
   title: string;
@@ -19,6 +27,10 @@ export type ServicesServiceItem = {
   audience: string[];
   process: ServicesStepItem[];
   faq: ServicesFaqItem[];
+  fieldActions: string[];
+  outcome: string;
+  image: string;
+  alt: string;
 };
 
 type ServicesSiteContent = {
@@ -39,6 +51,9 @@ type ServicesSiteContent = {
     secondaryCta: string;
     needsTitle: string;
     needs: Array<{ title: string; text: string }>;
+    interventionsTitle: string;
+    interventionsLead: string;
+    interventions: ServicesShowcaseItem[];
     servicesTitle: string;
     servicesLead: string;
     methodTitle: string;
@@ -84,21 +99,35 @@ type ServicesSiteContent = {
     audience: string;
     process: string;
     faq: string;
+    fieldActions: string;
+    outcome: string;
     contactCta: string;
   };
   services: ServicesServiceItem[];
 };
 
+const interventionImages = {
+  network:
+    "https://images.pexels.com/photos/2881228/pexels-photo-2881228.jpeg?auto=compress&w=1260&h=750&dpr=1",
+  classroom:
+    "https://images.pexels.com/photos/18471480/pexels-photo-18471480/free-photo-of-a-classroom-with-rows-of-computers-and-monitors.jpeg?auto=compress&w=1260&h=750&dpr=1",
+  woodenDesk:
+    "https://images.pexels.com/photos/12786595/pexels-photo-12786595.jpeg?auto=compress&w=1260&h=750&dpr=1",
+  blueDesk:
+    "https://images.pexels.com/photos/17789647/pexels-photo-17789647/free-photo-of-view-of-a-computer-and-laptop-standing-in-a-desk-in-blue-led-lighting.jpeg?auto=compress&w=1260&h=750&dpr=1",
+  officeDesk:
+    "https://images.pexels.com/photos/8297861/pexels-photo-8297861.jpeg?auto=compress&w=1260&h=750&dpr=1",
+  userSupport:
+    "https://images.pexels.com/photos/16007661/pexels-photo-16007661/free-photo-of-young-woman-sitting-in-a-computer-classroom-and-using-a-laptop.jpeg?auto=compress&w=1260&h=750&dpr=1",
+} as const;
+
 export const serviceSlugs = [
-  "creation-sites-internet",
-  "developpement-web-applications",
-  "depannage-informatique",
-  "maintenance-informatique",
-  "cybersecurite",
-  "reseaux-wifi",
-  "seo-visibilite-locale",
-  "solutions-cloud",
-  "experiences-3d",
+  "installation-postes-recents",
+  "assistance-accompagnement",
+  "maintenance-parc-informatique",
+  "cablage-reseau-wifi",
+  "sauvegarde-securisation-postes",
+  "support-depannage-utilisateurs",
 ] as const;
 
 export type ServiceSlug = (typeof serviceSlugs)[number];
@@ -111,309 +140,414 @@ const content: Record<ServicesLocale, ServicesSiteContent> = {
   fr: {
     nav: {
       home: "Accueil",
-      domaines: "Domaines",
+      domaines: "Prestations",
       about: "A propos",
       faq: "FAQ",
       contact: "Contact",
-      mainSite: "Retour site principal",
+      mainSite: "Accueil service info",
     },
     home: {
-      eyebrow: "Genesis Services",
-      title: "L'expertise numerique claire, structuree et actionnable.",
-      subtitle: "Un site dedie aux services.",
+      eyebrow: "Genesis Service Informatique",
+      title: "Installation, assistance et maintenance informatique sur site.",
+      subtitle: "Un site pense pour les actions terrain et l'accompagnement utilisateur.",
       description:
-        "Genesis Services concentre l'ensemble de l'offre expertise : site internet, developpement, support IT, SEO local, cloud, cybersecurite, reseaux et experiences digitales avancees.",
-      primaryCta: "Demander un diagnostic",
-      secondaryCta: "Voir les domaines",
+        "Ce projet est recentre sur le concret: deploiement de postes recents, cablage reseau, assistance utilisateur, maintenance de parc, reprise d'installation et accompagnement des equipes sur site.",
+      primaryCta: "Demander une intervention",
+      secondaryCta: "Voir les prestations",
       needsTitle: "Besoins couverts",
       needs: [
         {
-          title: "Visibilite et image",
-          text: "Creation de sites internet, refonte, SEO local et mise en valeur de l'offre.",
+          title: "Installation de postes",
+          text: "Preparation, raccordement, mise en service et verification de postes recents en environnement bureau, salle ou accueil.",
         },
         {
-          title: "Outils et plateforme",
-          text: "Developpement web, outils metier, automatisation et experiences sur mesure.",
+          title: "Assistance et accompagnement",
+          text: "Prise en main utilisateur, aide a l'adoption, explication des outils et accompagnement au quotidien.",
         },
         {
-          title: "IT et organisation",
-          text: "Depannage, maintenance, cloud, reseaux et structuration technique du quotidien.",
+          title: "Reseau et connectique",
+          text: "Cablage, switch, baie, Wi-Fi, etiquetage, tests de liaison et remise au propre de l'existant.",
         },
         {
-          title: "Protection et fiabilite",
-          text: "Cybersecurite, sauvegarde, hygiene numerique et reduction des risques.",
+          title: "Maintenance et stabilisation",
+          text: "Mises a jour, nettoyage, sauvegarde, support incidents et remise en condition d'un parc informatique.",
         },
       ],
-      servicesTitle: "Domaines d'intervention",
+      interventionsTitle: "Actions physiques recentes",
+      interventionsLead:
+        "Le site montre des interventions reelles de terrain: reseau, salle equipee, postes installes, bureau remis en service et accompagnement utilisateur.",
+      interventions: [
+        {
+          tag: "Reseau",
+          title: "Baie et cablage technique",
+          text: "Remise au propre des arrivages, raccordement des liaisons et verification de la stabilite reseau.",
+          image: interventionImages.network,
+          alt: "Vue rapprochee d'un rack reseau avec cables ethernet et connexions techniques.",
+        },
+        {
+          tag: "Salle equipee",
+          title: "Deploiement de postes en salle",
+          text: "Installation coherent de plusieurs postes dans une salle de formation, d'accueil ou d'enseignement.",
+          image: interventionImages.classroom,
+          alt: "Salle avec plusieurs postes informatiques alignes et prets a etre utilises.",
+        },
+        {
+          tag: "Poste recent",
+          title: "Mise en service d'un poste complet",
+          text: "Ecran, peripheriques, logiciels utiles, acces et environnement de travail configure.",
+          image: interventionImages.woodenDesk,
+          alt: "Poste informatique moderne avec grand ecran, clavier et environnement de travail configure.",
+        },
+        {
+          tag: "Bureau",
+          title: "Installation bureau et double equipement",
+          text: "Configuration d'un poste fixe ou mixte avec ecran, portable, station d'accueil et tests finaux.",
+          image: interventionImages.blueDesk,
+          alt: "Poste de travail moderne avec grand ecran et ordinateur portable sur un bureau.",
+        },
+        {
+          tag: "Accompagnement",
+          title: "Aide a la prise en main",
+          text: "Accompagnement utilisateur apres installation pour rendre l'equipement exploitable tout de suite.",
+          image: interventionImages.userSupport,
+          alt: "Utilisateur en situation d'accompagnement informatique dans une salle equipee.",
+        },
+      ],
+      servicesTitle: "Prestations principales",
       servicesLead:
-        "Chaque domaine dispose d'une page dediee, d'un langage plus direct et d'un parcours de contact plus simple.",
-      methodTitle: "Notre methode",
+        "Chaque prestation est decrite comme une action terrain: ce qui est fait, pour qui, comment l'intervention se deroule et quel resultat est attendu.",
+      methodTitle: "Methode d'intervention",
       method: [
         {
-          title: "Diagnostic",
-          text: "Nous cadrons le besoin, le contexte, les contraintes et le niveau de priorite.",
+          title: "Cadrage rapide",
+          text: "Nous validons les lieux, le nombre de postes, l'etat du reseau, les contraintes d'acces et la priorite reelle.",
         },
         {
-          title: "Priorisation",
-          text: "Nous definissons un plan realiste, lisible et adapte aux ressources disponibles.",
+          title: "Preparation",
+          text: "Nous listons le materiel, les comptes, les logiciels utiles, le plan de cablage et les verifications a faire.",
         },
         {
-          title: "Execution",
-          text: "Nous concevons, configurons, corrigeons ou deployons avec un niveau d'exigence professionnel.",
+          title: "Intervention",
+          text: "Installation physique, branchements, parametrage, tests et remise en condition sur site.",
         },
         {
-          title: "Suivi",
-          text: "Nous assurons la lisibilite des prochaines etapes, la stabilite et la continute du projet.",
+          title: "Transmission",
+          text: "Nous laissons une situation stable, claire pour l'equipe, avec les explications utiles et les points a surveiller.",
         },
       ],
       faqTitle: "Questions frequentes",
       faq: [
         {
-          question: "Ce site est-il different du site principal Genesis Connect ?",
+          question: "Intervenez-vous vraiment sur site ?",
           answer:
-            "Oui. Ici, tout est organise pour la partie expertise et services, avec un discours plus clair, plus direct et plus operationnel.",
+            "Oui. Le positionnement du site est centre sur des actions physiques: installation de postes, remise en ordre d'un bureau, cablage, reseau, accompagnement et support de proximite.",
         },
         {
-          question: "Peut-on melanger site internet, cloud et maintenance dans une meme demande ?",
+          question: "Pouvez-vous gerer plusieurs postes recents dans une meme intervention ?",
           answer:
-            "Oui. Le but de ce site est justement de rassembler les besoins techniques, web et organisationnels dans une seule logique.",
+            "Oui. Le deploiement peut concerner un poste unique, une salle complete, un petit parc ou une remise a niveau progressive.",
         },
         {
-          question: "Est-ce adapte aux petites entreprises et entrepreneurs ?",
+          question: "L'accompagnement utilisateur fait-il partie du service ?",
           answer:
-            "Oui. L'offre est pensee pour etre lisible et applicable autant pour des TPE, independants, associations que pour des structures plus etabliies.",
+            "Oui. L'installation ne s'arrete pas au branchement: prise en main, explications, verifications d'usage et support de demarrage sont integres quand c'est necessaire.",
         },
       ],
-      finalTitle: "Un interlocuteur clair pour des besoins reels.",
+      finalTitle: "Un service info concret, oriente terrain.",
       finalText:
-        "Le nouveau site expertise sert a cadrer les demandes, clarifier les offres et transformer les besoins en plan d'action concret.",
+        "Ici, on parle d'installations, de postes, d'assistance, de cablage et de maintenance reelle. Le but est de rendre une intervention lisible, utile et actionnable.",
     },
     about: {
       eyebrow: "A propos",
-      title: "Une base plus lisible pour la partie expertise.",
+      title: "Un site recentre sur les interventions physiques et l'accompagnement.",
       description:
-        "Le but de Genesis Services est de separer l'univers studio et projets du discours service, support et accompagnement. On gagne en clarte, en conversion et en lisibilite.",
-      valuesTitle: "Ce qui guide ce site",
+        "Le depot `service.informatique` doit representer un vrai site de service info: moins de discours studio, plus de terrain, plus d'installations reelles et plus de clarte pour des demandes concretes.",
+      valuesTitle: "Ce qui guide le site",
       values: [
         {
-          title: "Clarte",
-          text: "Chaque page doit permettre de comprendre rapidement si le service repond au besoin.",
+          title: "Terrain",
+          text: "Le contenu doit decrire ce qui est fait physiquement: brancher, raccorder, installer, tester, transmettre.",
         },
         {
-          title: "Utilite",
-          text: "Le contenu doit aider a decider, pas seulement impressionner.",
+          title: "Lisibilite",
+          text: "Chaque page doit aider a comprendre rapidement si l'intervention correspond au besoin reel.",
         },
         {
-          title: "Execution",
-          text: "Le positionnement reste premium, mais la priorite devient l'action et le resultat.",
+          title: "Continuite",
+          text: "L'objectif n'est pas seulement d'installer mais de laisser un environnement stable, utilisable et compris.",
         },
       ],
       approachTitle: "Approche",
       approach: [
-        "Un langage plus direct que le site principal.",
-        "Des pages structurees par probleme, livrables, audience et methode.",
-        "Une conversion plus simple avec contact, email structure et demande de diagnostic.",
+        "Un langage plus direct, centre sur l'intervention sur site et le resultat concret.",
+        "Des pages structurees par besoin physique: postes, reseau, assistance, maintenance, sauvegarde.",
+        "Une prise de contact qui permet de qualifier le lieu, le volume d'equipement et les contraintes techniques.",
       ],
     },
     faqPage: {
       eyebrow: "FAQ",
-      title: "Les reponses essentielles avant de prendre contact.",
+      title: "Les questions utiles avant une intervention informatique.",
       description:
-        "Cette FAQ rassemble les questions les plus utiles pour comprendre le positionnement, les services et la maniere de travailler.",
+        "Cette FAQ rassemble les points les plus frequents autour de l'installation de postes, du support utilisateur, du reseau et de la maintenance de parc.",
     },
     contact: {
       eyebrow: "Contact",
-      title: "Parlons de votre besoin technique, web ou organisationnel.",
+      title: "Parlons de votre installation, de votre parc ou de votre besoin d'assistance.",
       description:
-        "Le site expertise doit convertir plus vite. Cette page est pensee pour recueillir une demande claire, qualifier le besoin et accelerer la reponse.",
+        "Cette page sert a lancer une vraie demande terrain: nombre de postes, environnement, reseau, urgence, contraintes d'acces et niveau d'accompagnement attendu.",
       cards: [
         {
-          title: "Pour qui",
-          text: "Entrepreneurs, TPE, PME, associations et structures qui ont besoin d'un cadrage concret.",
+          title: "Ou",
+          text: "Bureaux, salles de formation, espaces d'accueil, petits sites professionnels et environnements de travail a remettre en ordre.",
         },
         {
           title: "Pour quoi",
-          text: "Site internet, support IT, cloud, securite, SEO local, automatisation ou besoin transverse.",
+          text: "Installation de postes recents, assistance, maintenance, cablage reseau, Wi-Fi, sauvegarde et support utilisateurs.",
         },
         {
-          title: "Comment",
-          text: "Par email structure, priorisation du besoin et proposition d'un plan de travail lisible.",
+          title: "Avant intervention",
+          text: "Indiquez le nombre de postes, l'adresse, le contexte, l'etat actuel, l'urgence et si du materiel est deja sur place.",
         },
       ],
-      emailCta: "Envoyer une demande",
-      backToMain: "Retour au site principal",
-      mailSubject: "Demande - Genesis Services",
+      emailCta: "Envoyer une demande d'intervention",
+      backToMain: "Retour accueil service info",
+      mailSubject: "Demande - Service Informatique",
       mailBody:
-        "Nom :\nEntreprise :\nSecteur :\nBesoin principal :\nContexte :\nObjectifs :\nBudget :\nDelais :\nInformations complementaires :",
+        "Nom :\nEntreprise :\nAdresse d'intervention :\nNombre de postes :\nType de besoin :\nMateriel deja en place :\nReseau / Wi-Fi :\nUrgence :\nContexte :\nInformations complementaires :",
     },
     domains: {
-      eyebrow: "Domaines",
-      title: "Une page par domaine pour clarifier l'offre.",
+      eyebrow: "Prestations",
+      title: "Des prestations pensees pour le terrain et l'usage reel.",
       description:
-        "Le nouveau site expertise se structure autour de pages detaillees, simples a parcourir et orientees vers l'action.",
-      cta: "Voir le domaine",
+        "Chaque prestation detaille ce qui est fait sur site, le type d'environnement concerne et le resultat attendu apres intervention.",
+      cta: "Voir le detail",
     },
     common: {
-      discover: "Decouvrir",
-      deliverables: "Livrables",
-      audience: "Pour qui",
-      process: "Processus",
-      faq: "FAQ",
-      contactCta: "Demander un diagnostic",
+      discover: "Voir le detail",
+      deliverables: "Ce qui est pris en charge",
+      audience: "Environnements concernes",
+      process: "Deroulement",
+      faq: "Questions frequentes",
+      fieldActions: "Actions sur site",
+      outcome: "Resultat attendu",
+      contactCta: "Demander une intervention",
     },
     services: [
       {
-        slug: "creation-sites-internet",
-        title: "Creation de sites internet",
-        summary: "Sites vitrines, sites professionnels, refonte, maintenance et base SEO solide.",
+        slug: "installation-postes-recents",
+        title: "Installation de postes recents",
+        summary:
+          "Mise en service de postes fixes ou mobiles: branchements, ecrans, peripheriques, comptes, logiciels et verification finale.",
         problem:
-          "Quand une presence en ligne ne reflete pas le niveau reel de l'activite, il faut une base plus claire, plus credible et plus performante.",
-        deliverables: ["Site vitrine ou corporate", "Refonte UX/UI", "Base SEO technique", "Maintenance et hebergement"],
-        audience: ["TPE / PME", "Independants", "Associations", "Marques locales"],
+          "Quand de nouveaux postes arrivent, le risque est de perdre du temps en branchements incomplets, profils mal configures, acces manquants ou peripheriques non reconnus.",
+        deliverables: [
+          "Preparation du poste et des peripheriques",
+          "Raccordement ecran, clavier, souris, station d'accueil",
+          "Connexion reseau, imprimante et acces utiles",
+          "Verification de fonctionnement en fin d'installation",
+        ],
+        audience: ["Bureaux individuels", "Petites equipes", "Salles equipees", "Structures en renouvellement de parc"],
         process: [
-          { title: "Cadrage", text: "Positionnement, objectifs, arborescence et conversion." },
-          { title: "Design", text: "Interface plus lisible, premium et structuree." },
-          { title: "Mise en ligne", text: "Integration, performance, SEO technique et suivi." },
+          { title: "Preparation", text: "Controle du materiel, des comptes et des logiciels attendus avant mise en place." },
+          { title: "Installation", text: "Montage du poste, branchements, detection des peripheriques et parametrage utile." },
+          { title: "Validation", text: "Tests de connexion, impression, session, affichage et verification d'usage reel." },
         ],
         faq: [
-          { question: "Le SEO est-il prevu ?", answer: "Oui, une base SEO propre est integree des la conception." },
+          {
+            question: "Pouvez-vous installer plusieurs postes d'un coup ?",
+            answer: "Oui. Le service couvre un poste unique comme une petite vague de deploiement sur plusieurs bureaux ou salles.",
+          },
         ],
+        fieldActions: [
+          "Montage et raccordement complet du poste",
+          "Gestion des ecrans, stations d'accueil et accessoires",
+          "Connexion au reseau, au Wi-Fi ou a l'impression",
+          "Controle final avec l'utilisateur ou le responsable sur place",
+        ],
+        outcome:
+          "Des postes vraiment exploitables a la fin de l'intervention, sans laisser les equipes seules avec des branchements incomplets.",
+        image: interventionImages.woodenDesk,
+        alt: "Poste informatique recent configure sur un bureau avec ecran et peripheriques.",
       },
       {
-        slug: "developpement-web-applications",
-        title: "Developpement web et applications",
-        summary: "Outils metier, automatisation, interfaces internes et plateformes sur mesure.",
+        slug: "assistance-accompagnement",
+        title: "Assistance et accompagnement",
+        summary:
+          "Accompagnement de proximite pour aider les utilisateurs a prendre en main leur environnement, comprendre les outils et travailler sans blocage.",
         problem:
-          "Quand les outils existants ralentissent l'activite, un produit sur mesure peut simplifier les operations et la circulation de l'information.",
-        deliverables: ["Application web", "Automatisation", "Back-office", "Integration process internes"],
-        audience: ["Entreprises", "Structures en croissance", "Equipes operationnelles"],
+          "Un poste installe mais non compris ralentit l'activite. Les utilisateurs ont souvent besoin d'un accompagnement court mais clair pour etre autonomes.",
+        deliverables: [
+          "Prise en main utilisateur apres installation",
+          "Aide a la connexion aux comptes et services",
+          "Explications des usages essentiels",
+          "Support de demarrage et bonnes pratiques de base",
+        ],
+        audience: ["Nouveaux utilisateurs", "Equipes non techniques", "Petites structures", "Environnements avec rotation de personnel"],
         process: [
-          { title: "Analyse", text: "Comprendre les flux, utilisateurs et points de friction." },
-          { title: "Prototype", text: "Poser une base claire avant execution complete." },
-          { title: "Livraison", text: "Construire par priorites et iterations utiles." },
+          { title: "Observation", text: "Identifier les blocages reals d'usage et le niveau d'autonomie attendu." },
+          { title: "Accompagnement", text: "Montrer, faire avec l'utilisateur, puis verifier qu'il peut reproduire les actions utiles." },
+          { title: "Consolidation", text: "Laisser des reperes simples pour eviter les demandes repetitives sur les memes points." },
         ],
         faq: [
-          { question: "Peut-on partir d'un besoin flou ?", answer: "Oui, le cadrage sert precisement a clarifier le besoin reel." },
+          {
+            question: "Est-ce seulement pour des debutants ?",
+            answer: "Non. L'accompagnement est utile a chaque changement de poste, d'outil, d'organisation ou de procedure.",
+          },
         ],
+        fieldActions: [
+          "Accompagnement poste par poste ou petit groupe",
+          "Aide a la prise en main des outils du quotidien",
+          "Verification d'acces, de reperes et de procedures simples",
+          "Transmission claire des points de vigilance et d'autonomie",
+        ],
+        outcome:
+          "Des utilisateurs plus a l'aise, avec moins de friction au demarrage et moins d'appels d'urgence pour des gestes essentiels.",
+        image: interventionImages.userSupport,
+        alt: "Situation d'accompagnement utilisateur dans une salle informatique.",
       },
       {
-        slug: "depannage-informatique",
-        title: "Depannage informatique",
-        summary: "Resolution d'incidents, assistance, nettoyage, remise en service et support rapide.",
+        slug: "maintenance-parc-informatique",
+        title: "Maintenance de parc informatique",
+        summary:
+          "Suivi de postes, mises a jour, controles de stabilite, nettoyage et remise en ordre d'un environnement devenu fragile.",
         problem:
-          "Quand le poste, le logiciel ou l'environnement bloque l'activite, il faut une intervention pragmatique et rassurante.",
-        deliverables: ["Diagnostic incident", "Remise en service", "Nettoyage logiciel", "Support utilisateur"],
-        audience: ["Petites entreprises", "Independants", "Associations"],
+          "Quand les postes vieillissent mal ou ne sont plus suivis, les incidents se multiplient, les performances chutent et l'organisation technique devient floue.",
+        deliverables: [
+          "Etat des lieux du parc et des points fragiles",
+          "Mises a jour et controles de stabilite",
+          "Nettoyage logique et verifications d'usage",
+          "Recommandations de priorite a court terme",
+        ],
+        audience: ["Petits parcs", "Bureaux de 2 a 30 postes", "Associations", "Structures sans support interne"],
         process: [
-          { title: "Diagnostic", text: "Identifier l'origine du blocage et la criticite." },
-          { title: "Correction", text: "Resoudre rapidement avec la solution la plus stable." },
-          { title: "Prevention", text: "Mettre en place quelques protections simples pour eviter la recurrence." },
+          { title: "Audit rapide", text: "Lister les postes critiques, les habitudes de travail et les incidents recurrent." },
+          { title: "Maintenance", text: "Traiter prioritairement ce qui bloque ou fragilise le quotidien des utilisateurs." },
+          { title: "Suivi", text: "Laisser une base plus propre et des prochaines etapes claires." },
         ],
         faq: [
-          { question: "Travaillez-vous a distance ?", answer: "Oui, quand le contexte le permet, l'assistance a distance est privilegiee." },
+          {
+            question: "Faut-il avoir un gros parc pour demander ce service ?",
+            answer: "Non. Les petites structures gagnent souvent le plus a remettre propre un environnement qui s'est degrade progressivement.",
+          },
         ],
+        fieldActions: [
+          "Controle de plusieurs postes sur site",
+          "Mises a jour, nettoyage et corrections rapides",
+          "Verification des profils, imprimantes et partages utiles",
+          "Remise en coherence du parc et des usages de base",
+        ],
+        outcome:
+          "Un parc plus stable, mieux compris et plus simple a faire vivre au quotidien.",
+        image: interventionImages.officeDesk,
+        alt: "Poste de bureau moderne dans un environnement de travail professionnel.",
       },
       {
-        slug: "maintenance-informatique",
-        title: "Maintenance informatique",
-        summary: "Maintenance preventive, corrective, mises a jour et stabilite au quotidien.",
+        slug: "cablage-reseau-wifi",
+        title: "Cablage reseau et Wi-Fi",
+        summary:
+          "Organisation du cablage, reprises de liaisons, optimisation de couverture Wi-Fi et verification de connectivite.",
         problem:
-          "Quand tout fonctionne seulement jusqu'au prochain incident, il faut une base de maintenance plus reguliere et plus anticipee.",
-        deliverables: ["Suivi de postes", "Mises a jour", "Controle de stabilite", "Base de securite"],
-        audience: ["TPE", "Petites equipes", "Structures locales"],
+          "Un reseau mal propre ou des points de connexion mal identifies font perdre du temps, degradent la stabilite et compliquent toute evolution.",
+        deliverables: [
+          "Reprise du cablage utile et raccordements",
+          "Organisation physique des liaisons et reperage",
+          "Verification des points reseau et de la couverture",
+          "Tests de stabilite et recommandations d'amelioration",
+        ],
+        audience: ["Bureaux", "Locaux multi-postes", "Salles equipees", "Sites en remise a niveau technique"],
         process: [
-          { title: "Etat des lieux", text: "Lister les points fragiles et les habitudes de travail." },
-          { title: "Routine", text: "Definir une maintenance legere mais reguliere." },
-          { title: "Suivi", text: "Ajuster selon les priorites et incidents observes." },
+          { title: "Lecture de l'existant", text: "Comprendre le role des liaisons, des switchs, des acces Wi-Fi et des zones faibles." },
+          { title: "Intervention", text: "Raccorder proprement, etiqueter, reorganiser et tester les points critiques." },
+          { title: "Stabilisation", text: "Verifier que les usages reels tiennent sans coupure ni incomprehension d'infrastructure." },
         ],
         faq: [
-          { question: "Est-ce utile pour une petite structure ?", answer: "Oui, c'est souvent la petite structure qui gagne le plus a eviter les interruptions." },
+          {
+            question: "Pouvez-vous reprendre un reseau deja en place ?",
+            answer: "Oui. C'est meme un cas frequent: remettre propre sans tout refaire, en priorisant ce qui compte vraiment.",
+          },
         ],
+        fieldActions: [
+          "Controle baie, switch et prises utiles",
+          "Raccordement et reprise de cablage",
+          "Tests de liaisons reseau et connectivite Wi-Fi",
+          "Reperage simple pour faciliter les futures interventions",
+        ],
+        outcome:
+          "Un reseau plus lisible, plus stable et moins dependant d'improvisations ou de branchements non identifies.",
+        image: interventionImages.network,
+        alt: "Raccordement reseau avec cables ethernet sur un equipement technique.",
       },
       {
-        slug: "cybersecurite",
-        title: "Cybersecurite",
-        summary: "Protection des acces, hygiene numerique, sauvegarde et reduction des risques.",
+        slug: "sauvegarde-securisation-postes",
+        title: "Sauvegarde et securisation des postes",
+        summary:
+          "Sauvegarde de base, hygiene numerique, protection des acces et reduction des risques sur des environnements de travail courants.",
         problem:
-          "Quand les acces, les mots de passe, les postes ou les habitudes sont fragiles, le risque augmente tres vite.",
-        deliverables: ["Audit simple", "MFA et acces", "Sauvegarde", "Sensibilisation"],
-        audience: ["TPE / PME", "Entrepreneurs", "Equipes admin"],
+          "Beaucoup de structures travaillent sans sauvegarde fiable, avec des acces trop simples ou des habitudes risquant de provoquer perte de donnees ou compromission.",
+        deliverables: [
+          "Verification des acces et mots de passe essentiels",
+          "Mise en place d'une sauvegarde de base",
+          "Recommandations de securisation prioritaires",
+          "Sensibilisation simple pour l'equipe",
+        ],
+        audience: ["TPE", "Independants", "Petits bureaux", "Structures sans procedure securite formalisee"],
         process: [
-          { title: "Priorites", text: "Commencer par les failles les plus critiques." },
-          { title: "Protection", text: "Mettre en place des garde-fous simples et efficaces." },
-          { title: "Adoption", text: "Faire en sorte que les bonnes pratiques soient applicables." },
+          { title: "Priorites", text: "Identifier ce qui expose le plus vite la structure a une perte ou un blocage." },
+          { title: "Protection", text: "Mettre en place des mesures simples, realistes et exploitables." },
+          { title: "Transmission", text: "Expliquer ce qui a ete mis en place et ce qu'il faut maintenir dans le temps." },
         ],
         faq: [
-          { question: "Faut-il un gros budget pour commencer ?", answer: "Non, beaucoup d'ameliorations prioritaires sont surtout une question de methode." },
+          {
+            question: "Ce service est-il utile meme pour une petite equipe ?",
+            answer: "Oui. Les petites equipes sont souvent les plus exposees quand tout repose sur quelques postes et peu de sauvegardes.",
+          },
         ],
+        fieldActions: [
+          "Verification des acces principaux",
+          "Mise en place ou controle d'une sauvegarde utile",
+          "Correction de points de faiblesse evidents",
+          "Transmission de bonnes pratiques directement applicables",
+        ],
+        outcome:
+          "Moins de risque, plus de continuite et une base de securite enfin exploitable au quotidien.",
+        image: interventionImages.blueDesk,
+        alt: "Poste de travail moderne utilise pour illustrer la protection, la sauvegarde et la stabilite d'environnement.",
       },
       {
-        slug: "reseaux-wifi",
-        title: "Reseaux et Wi-Fi",
-        summary: "Configuration reseau, Wi-Fi, couverture, securisation et stabilite.",
+        slug: "support-depannage-utilisateurs",
+        title: "Support et depannage utilisateurs",
+        summary:
+          "Diagnostic de blocages, resolution d'incidents courants et remise en service rapide de postes ou d'usages critiques.",
         problem:
-          "Quand la connectivite ralentit l'activite ou cree des zones instables, il faut une base reseau plus propre et plus fiable.",
-        deliverables: ["Audit reseau", "Configuration Wi-Fi", "Optimisation couverture", "Securisation minimale"],
-        audience: ["Bureaux", "Commerces", "Petites structures", "Espaces d'accueil"],
+          "Quand un utilisateur est bloque, l'activite s'arrete tout de suite. Il faut une intervention claire, rapide et rassurante pour relancer le travail.",
+        deliverables: [
+          "Diagnostic de la situation et de la criticite",
+          "Correction du blocage sur place ou en proximite",
+          "Verification que l'usage repart correctement",
+          "Conseils simples pour limiter la recurrence",
+        ],
+        audience: ["Utilisateurs bureautiques", "Petites equipes", "Structures sans support interne", "Postes isoles ou critiques"],
         process: [
-          { title: "Audit", text: "Observer la couverture, la configuration et les usages." },
-          { title: "Reglages", text: "Corriger l'architecture et les points faibles." },
-          { title: "Stabilisation", text: "Verifier la tenue dans les usages reels." },
+          { title: "Diagnostic", text: "Comprendre le symptome, l'impact et le chemin le plus rapide vers une remise en service." },
+          { title: "Resolution", text: "Corriger ce qui bloque sans sur-complexifier la solution." },
+          { title: "Verification", text: "Confirmer avec l'utilisateur que le poste ou l'usage est redevenu operationnel." },
         ],
         faq: [
-          { question: "Pouvez-vous intervenir sur une installation existante ?", answer: "Oui, l'optimisation de l'existant fait partie des cas les plus courants." },
+          {
+            question: "Pouvez-vous intervenir pour un blocage ponctuel ?",
+            answer: "Oui. Le service couvre aussi les besoins urgents ou localises quand un utilisateur ne peut plus travailler normalement.",
+          },
         ],
-      },
-      {
-        slug: "seo-visibilite-locale",
-        title: "SEO et visibilite locale",
-        summary: "SEO local, GBP, contenu structure, signal local et meilleure visibilite.",
-        problem:
-          "Quand une activite est peu visible localement malgre la qualite de l'offre, il faut une base SEO plus claire et plus reguliere.",
-        deliverables: ["Base technique SEO", "Google Business Profile", "Pages claires", "FAQ et structure locale"],
-        audience: ["Commerces", "Prestataires", "Entrepreneurs locaux", "Structures de proximite"],
-        process: [
-          { title: "Etat initial", text: "Mesurer la visibilite actuelle et les ecarts." },
-          { title: "Fondations", text: "Corriger structure, contenu et signaux prioritaires." },
-          { title: "Renforcement", text: "Ameliorer la coherence locale et la lisibilite du site." },
+        fieldActions: [
+          "Diagnostic du poste ou du symptome utilisateur",
+          "Correction ciblee et remise en service",
+          "Verification des acces et des usages immediats",
+          "Recommandation de prevention quand c'est utile",
         ],
-        faq: [
-          { question: "Google Maps fait-il partie du travail ?", answer: "Oui, la coherence locale inclut aussi la fiche et les signaux de confiance." },
-        ],
-      },
-      {
-        slug: "solutions-cloud",
-        title: "Solutions cloud",
-        summary: "Microsoft 365, Google Workspace, sauvegarde, collaboration et structuration.",
-        problem:
-          "Quand les fichiers, emails et droits d'acces sont mal organises, le cloud doit devenir un outil de clarte, pas une source de confusion.",
-        deliverables: ["Organisation cloud", "Messagerie", "Partage documentaire", "Sauvegarde et droits"],
-        audience: ["Petites equipes", "Structures en croissance", "Entrepreneurs organises"],
-        process: [
-          { title: "Choix", text: "Selectionner la bonne base entre usages, outils et contraintes." },
-          { title: "Mise en place", text: "Configurer correctement comptes, fichiers et acces." },
-          { title: "Transmission", text: "Rendre l'usage simple pour l'equipe." },
-        ],
-        faq: [
-          { question: "Microsoft 365 ou Google Workspace ?", answer: "La reponse depend surtout des usages et du mode de travail de l'equipe." },
-        ],
-      },
-      {
-        slug: "experiences-3d",
-        title: "Experiences 3D",
-        summary: "Univers interactifs, narration immersive et experiences digitales avancees.",
-        problem:
-          "Quand un projet doit se differencier fortement, la 3D et l'immersion peuvent donner une presence plus memorable et plus distinctive.",
-        deliverables: ["Direction d'experience", "Scene immersive", "Integration web", "Optimisation performance"],
-        audience: ["Marques", "Studios", "Lancements premium", "Projets a forte desirabilite"],
-        process: [
-          { title: "Concept", text: "Definir l'effet recherche et la place de l'immersion." },
-          { title: "Prototype", text: "Valider l'intention visuelle et technique." },
-          { title: "Integration", text: "Assurer une execution premium sans sacrifier la fluidite." },
-        ],
-        faq: [
-          { question: "Peut-on garder un site rapide avec de la 3D ?", answer: "Oui, si la 3D est pensee comme un levier d'identite et non comme une surcharge." },
-        ],
+        outcome:
+          "Un utilisateur relance plus vite, avec moins d'interruption et un contexte mieux compris pour la suite.",
+        image: interventionImages.officeDesk,
+        alt: "Poste de travail vide illustrant un support de proximite et une remise en service rapide.",
       },
     ],
   },
@@ -424,92 +558,98 @@ const content: Record<ServicesLocale, ServicesSiteContent> = {
       about: "About",
       faq: "FAQ",
       contact: "Contact",
-      mainSite: "Main site",
+      mainSite: "Service home",
     },
     home: {
-      eyebrow: "Genesis Services",
-      title: "Clear, structured and actionable digital expertise.",
-      subtitle: "A dedicated services website.",
+      eyebrow: "Genesis IT Services",
+      title: "On-site installation, user assistance and IT maintenance.",
+      subtitle: "A service website focused on real field operations.",
       description:
-        "Genesis Services focuses the expertise offer into one place: websites, development, IT support, local SEO, cloud, cybersecurity, networking and advanced digital experiences.",
-      primaryCta: "Request an audit",
+        "This version is centered on physical IT actions: workstation deployment, cabling, on-site support, maintenance, stabilization and user onboarding.",
+      primaryCta: "Request an intervention",
       secondaryCta: "View services",
-      needsTitle: "Needs we cover",
+      needsTitle: "Needs covered",
       needs: [
-        { title: "Visibility", text: "Websites, redesigns, local SEO and clearer offer presentation." },
-        { title: "Tools", text: "Web apps, automation and tailored platforms." },
-        { title: "IT", text: "Troubleshooting, maintenance, cloud and daily technical structure." },
-        { title: "Protection", text: "Cybersecurity, backups and risk reduction." },
+        { title: "Workstations", text: "Deployment of recent workstations and peripherals." },
+        { title: "Support", text: "User assistance and guided onboarding." },
+        { title: "Network", text: "Cabling, Wi-Fi and connectivity verification." },
+        { title: "Maintenance", text: "Stabilization, updates and support." },
       ],
-      servicesTitle: "Service areas",
-      servicesLead: "Each domain has its own page, clearer language and a simpler conversion path.",
-      methodTitle: "How we work",
+      interventionsTitle: "Recent field actions",
+      interventionsLead:
+        "A gallery of real physical IT contexts: network, equipped room, installed workstation and user support.",
+      interventions: [],
+      servicesTitle: "Core services",
+      servicesLead: "Each page explains a real on-site service and the expected outcome.",
+      methodTitle: "Method",
       method: [
-        { title: "Audit", text: "We frame the need, constraints and priority level." },
-        { title: "Prioritization", text: "We define a realistic, readable plan." },
-        { title: "Execution", text: "We build, configure or fix with professional standards." },
-        { title: "Follow-up", text: "We keep next steps clear and useful." },
+        { title: "Scope", text: "We review the site, equipment and constraints." },
+        { title: "Prepare", text: "We list the materials, accounts and checks to perform." },
+        { title: "Intervene", text: "We install, connect, configure and test on site." },
+        { title: "Hand over", text: "We leave the environment stable and understandable." },
       ],
       faqTitle: "FAQ",
       faq: [
-        { question: "Is this different from the main Genesis Connect site?", answer: "Yes. This version is organized around services and expertise only." },
-        { question: "Can one request include web, cloud and IT?", answer: "Yes. The idea is to centralize related needs in one clear workflow." },
-        { question: "Is it suitable for small businesses?", answer: "Yes. The structure is designed for founders, small teams and local organizations." },
+        { question: "Do you work on site?", answer: "Yes. This project is focused on physical IT work and proximity support." },
+        { question: "Can you deploy several workstations?", answer: "Yes, from a single desk to a small room or a compact fleet." },
+        { question: "Is user onboarding included?", answer: "Yes, when needed we include practical user guidance after installation." },
       ],
-      finalTitle: "One clearer place for real service needs.",
-      finalText: "This dedicated structure helps position the offer, qualify requests and guide conversions more efficiently.",
+      finalTitle: "A concrete IT service website.",
+      finalText: "Less studio language, more real operations, installations and support.",
     },
     about: {
       eyebrow: "About",
-      title: "A clearer base for the expertise side of Genesis.",
+      title: "A dedicated site for physical IT services.",
       description:
-        "Genesis Services separates the studio universe from the service, support and expertise offer. It improves clarity, conversion and overall readability.",
-      valuesTitle: "What drives this site",
+        "This repository is being refocused on on-site installation, support, maintenance and network work instead of the previous studio-oriented positioning.",
+      valuesTitle: "Principles",
       values: [
-        { title: "Clarity", text: "Each page should help visitors understand whether the service fits." },
-        { title: "Usefulness", text: "The content should support decisions, not only aesthetics." },
-        { title: "Execution", text: "The tone stays premium, but the priority becomes action and outcomes." },
+        { title: "Field-first", text: "Describe what is physically done on site." },
+        { title: "Clarity", text: "Make the intervention understandable quickly." },
+        { title: "Continuity", text: "Leave a stable and usable setup behind." },
       ],
       approachTitle: "Approach",
       approach: [
-        "More direct wording than the main site.",
-        "Pages structured by problem, deliverables, audience and method.",
-        "Simpler conversion through contact, structured email and audit requests.",
+        "Direct wording focused on field operations.",
+        "Pages structured around workstations, support, network and maintenance.",
+        "Contact focused on location, equipment volume and technical constraints.",
       ],
     },
     faqPage: {
       eyebrow: "FAQ",
-      title: "Key answers before getting in touch.",
-      description: "A focused FAQ to explain positioning, services and the working method.",
+      title: "Useful answers before requesting an intervention.",
+      description: "Practical questions about installations, support and maintenance.",
     },
     contact: {
       eyebrow: "Contact",
-      title: "Let us discuss your technical, web or organizational needs.",
-      description: "This contact structure is designed to qualify requests faster and answer more clearly.",
+      title: "Tell us about your site, workstations or support need.",
+      description: "Use this page to describe the location, number of workstations, network context and urgency.",
       cards: [
-        { title: "Who", text: "Founders, small businesses, associations and structured local organizations." },
-        { title: "What", text: "Websites, IT, cloud, security, SEO, automation or mixed needs." },
-        { title: "How", text: "Structured email, prioritization and a readable action plan." },
+        { title: "Where", text: "Office, classroom, reception or structured small worksite." },
+        { title: "What", text: "Workstation install, support, maintenance, network and Wi-Fi." },
+        { title: "Before we come", text: "Share address, number of workstations, urgency and current setup." },
       ],
-      emailCta: "Send a request",
-      backToMain: "Back to main site",
-      mailSubject: "Request - Genesis Services",
+      emailCta: "Send an intervention request",
+      backToMain: "Back to service home",
+      mailSubject: "Request - IT Service",
       mailBody:
-        "Name :\nCompany :\nIndustry :\nMain need :\nContext :\nGoals :\nBudget :\nTimeline :\nAdditional information :",
+        "Name:\nCompany:\nAddress:\nNumber of workstations:\nMain need:\nExisting equipment:\nNetwork / Wi-Fi:\nUrgency:\nContext:\nAdditional info:",
     },
     domains: {
       eyebrow: "Services",
-      title: "One page per service area.",
-      description: "The expertise website is structured around simple, detailed and action-oriented service pages.",
-      cta: "View service",
+      title: "Field services and practical support.",
+      description: "Every page explains what is done on site and what result is expected.",
+      cta: "View details",
     },
     common: {
-      discover: "Discover",
-      deliverables: "Deliverables",
-      audience: "Audience",
+      discover: "View details",
+      deliverables: "Coverage",
+      audience: "For",
       process: "Process",
       faq: "FAQ",
-      contactCta: "Request an audit",
+      fieldActions: "On-site actions",
+      outcome: "Expected outcome",
+      contactCta: "Request an intervention",
     },
     services: [],
   },
@@ -520,105 +660,110 @@ const content: Record<ServicesLocale, ServicesSiteContent> = {
       about: "关于",
       faq: "FAQ",
       contact: "联系",
-      mainSite: "主站",
+      mainSite: "服务首页",
     },
     home: {
-      eyebrow: "Genesis Services",
-      title: "更清晰、更结构化、更可执行的专业服务站。",
-      subtitle: "一个专门承载 expertise 的新站点。",
+      eyebrow: "Genesis IT Services",
+      title: "现场安装、用户协助与 IT 维护。",
+      subtitle: "一个真正面向现场服务的新站点。",
       description:
-        "Genesis Services 把网站建设、开发、IT 支持、本地 SEO、云协作、网络安全、网络配置与高级数字体验集中到一个更清楚的空间里。",
-      primaryCta: "申请诊断",
+        "这个版本聚焦物理 IT 行动：新工位安装、布线、现场支持、维护、环境稳定化与用户陪伴。",
+      primaryCta: "申请干预",
       secondaryCta: "查看服务",
-      needsTitle: "覆盖的需求",
+      needsTitle: "覆盖需求",
       needs: [
-        { title: "可见度", text: "网站、改版、本地 SEO 与更清晰的品牌呈现。" },
-        { title: "工具", text: "Web 应用、自动化与定制平台。" },
-        { title: "IT", text: "故障处理、维护、云协作与日常技术组织。" },
-        { title: "保护", text: "网络安全、备份与风险降低。" },
+        { title: "工位", text: "新工位与外设部署。" },
+        { title: "协助", text: "用户陪伴与上手支持。" },
+        { title: "网络", text: "布线、Wi-Fi 与连通性检查。" },
+        { title: "维护", text: "稳定化、更新与支持。" },
       ],
-      servicesTitle: "服务领域",
-      servicesLead: "每个领域都有自己的说明页面、更直接的表达和更简单的转化路径。",
-      methodTitle: "工作方式",
+      interventionsTitle: "近期现场操作",
+      interventionsLead: "围绕网络、教室、工位与用户支持的真实 IT 场景。",
+      interventions: [],
+      servicesTitle: "主要服务",
+      servicesLead: "每个页面都说明真实现场服务及预期结果。",
+      methodTitle: "方式",
       method: [
-        { title: "诊断", text: "明确需求、限制与优先级。" },
-        { title: "排序", text: "建立可执行、可理解的计划。" },
-        { title: "执行", text: "以专业标准进行建设、配置或修复。" },
-        { title: "跟进", text: "保持后续步骤清晰可控。" },
+        { title: "确认", text: "确认现场、设备与限制。" },
+        { title: "准备", text: "整理材料、账户与检查点。" },
+        { title: "执行", text: "现场安装、连接、配置与测试。" },
+        { title: "交付", text: "留下稳定、可理解的环境。" },
       ],
       faqTitle: "常见问题",
       faq: [
-        { question: "这个站和主站有什么不同？", answer: "这个站专门承载服务与 expertise，不再混合 studio 表达。" },
-        { question: "一个需求可以同时涉及网站、云与 IT 吗？", answer: "可以，这正是新站要解决的整理与统一问题。" },
-        { question: "适合小企业吗？", answer: "适合，特别适合创业者、小团队与本地组织。" },
+        { question: "是否现场服务？", answer: "是的，这个项目聚焦物理 IT 干预与近场支持。" },
+        { question: "能否部署多个工位？", answer: "可以，从单个工位到小型教室或小规模设备组。" },
+        { question: "是否包含用户上手？", answer: "需要时会包含安装后的实际使用陪伴。" },
       ],
-      finalTitle: "把真实需求放进一个更清楚的框架里。",
-      finalText: "这个新站的目标是让服务更容易理解、联系更快、转化更顺畅。",
+      finalTitle: "一个更具体的服务信息站。",
+      finalText: "减少 studio 叙事，更多真实安装、支持与维护。",
     },
     about: {
       eyebrow: "关于",
-      title: "为 expertise 单独建立更清晰的基础。",
-      description:
-        "Genesis Services 将 studio 叙事与服务型表达分开，让定位、内容和转化更加清楚。",
-      valuesTitle: "这个站点的核心",
+      title: "一个真正面向现场 IT 服务的站点。",
+      description: "这个仓库正在从旧的 studio / 3D 方向转向现场安装、支持、维护与网络服务。",
+      valuesTitle: "原则",
       values: [
-        { title: "清晰", text: "每个页面都要帮助访客快速判断是否匹配需求。" },
-        { title: "实用", text: "内容优先帮助决策，而不是只做展示。" },
-        { title: "执行", text: "保持高级感，同时更重视结果与可落地性。" },
+        { title: "现场优先", text: "先说明现场实际做什么。" },
+        { title: "清晰", text: "让访客快速理解干预内容。" },
+        { title: "连续性", text: "留下稳定可用的环境。" },
       ],
       approachTitle: "方法",
       approach: [
-        "语言比主站更直接。",
-        "页面按问题、交付内容、适用对象与流程组织。",
-        "通过联系页、结构化邮件与诊断请求提升转化。",
+        "更直接的现场语言。",
+        "按工位、支持、网络与维护组织内容。",
+        "联系信息聚焦地点、数量与技术限制。",
       ],
     },
     faqPage: {
       eyebrow: "FAQ",
-      title: "联系之前最重要的答案。",
-      description: "聚焦说明定位、服务与合作方式。",
+      title: "申请现场服务前的常见问题。",
+      description: "围绕安装、支持与维护的实用说明。",
     },
     contact: {
       eyebrow: "联系",
-      title: "讨论你的技术、网站或组织需求。",
-      description: "这个联系结构旨在更快地收集需求并给出更清晰的回应。",
+      title: "告诉我们你的现场、工位数量或支持需求。",
+      description: "请说明地点、工位数量、网络环境与紧急程度。",
       cards: [
-        { title: "适合谁", text: "创业者、小企业、协会与本地组织。" },
-        { title: "适合什么", text: "网站、IT、云、安全、SEO、自动化或混合需求。" },
-        { title: "如何进行", text: "结构化邮件、优先级判断与清晰行动计划。" },
+        { title: "地点", text: "办公室、教室、接待区或小型工作场所。" },
+        { title: "内容", text: "工位安装、支持、维护、网络与 Wi-Fi。" },
+        { title: "提前信息", text: "请给出地址、数量、紧急度与现状。" },
       ],
-      emailCta: "发送需求",
-      backToMain: "返回主站",
-      mailSubject: "需求 - Genesis Services",
+      emailCta: "发送干预请求",
+      backToMain: "返回服务首页",
+      mailSubject: "需求 - IT 服务",
       mailBody:
-        "姓名：\n公司：\n行业：\n核心需求：\n背景：\n目标：\n预算：\n时间：\n补充信息：",
+        "姓名：\n公司：\n地址：\n工位数量：\n主要需求：\n现有设备：\n网络 / Wi-Fi：\n紧急程度：\n背景：\n补充信息：",
     },
     domains: {
       eyebrow: "服务",
-      title: "每个服务领域都有独立页面。",
-      description: "新的 expertise 站点围绕详细、清晰、可行动的服务页面展开。",
-      cta: "查看服务",
+      title: "现场服务与实用支持。",
+      description: "每个页面都解释现场动作与预期结果。",
+      cta: "查看详情",
     },
     common: {
-      discover: "了解更多",
-      deliverables: "交付内容",
-      audience: "适合对象",
+      discover: "查看详情",
+      deliverables: "覆盖内容",
+      audience: "适用环境",
       process: "流程",
       faq: "FAQ",
-      contactCta: "申请诊断",
+      fieldActions: "现场动作",
+      outcome: "预期结果",
+      contactCta: "申请干预",
     },
     services: [],
   },
 };
 
+content.en.home.interventions = content.fr.home.interventions;
+content.zh.home.interventions = content.fr.home.interventions;
+
 content.en.services = content.fr.services.map((service) => ({
   ...service,
-  summary: service.summary,
 }));
 
 content.zh.services = content.fr.services.map((service) => ({
   ...service,
-  summary: service.summary,
 }));
 
 export function getServicesSiteContent(locale: string) {

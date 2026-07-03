@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 import { Link } from "@/i18n/routing";
 import { getServicesSiteContent } from "@/lib/servicesSiteContent";
@@ -30,23 +31,37 @@ export default async function ServicesDomainsPage({
             <Reveal
               key={service.slug}
               delay={index * 60}
-              className="rounded-[30px] border border-[#FAF9F6]/10 bg-[#20140f] p-8"
+              className="overflow-hidden rounded-[30px] border border-[#FAF9F6]/10 bg-[#20140f]"
             >
-              <p className="text-[10px] uppercase tracking-[0.24em] text-[#D7B07A]">
-                0{index + 1}
-              </p>
-              <h2 className="mt-5 font-serif text-3xl leading-[1.04] tracking-[-0.03em]">
-                {service.title}
-              </h2>
-              <p className="mt-5 text-sm leading-7 text-[#FAF9F6]/72 md:text-base">
-                {service.summary}
-              </p>
-              <Link
-                href={`/services/domaines/${service.slug}`}
-                className="mt-8 inline-flex items-center rounded-full border border-[#FAF9F6]/14 px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-[#FAF9F6]/82 transition-colors hover:border-[#FAF9F6]/28 hover:text-[#FAF9F6]"
-              >
-                {site.domains.cta}
-              </Link>
+              <div className="aspect-[16/10] overflow-hidden">
+                <Image
+                  src={service.image}
+                  alt={service.alt}
+                  width={1260}
+                  height={750}
+                  className="h-full w-full object-cover opacity-82 transition-transform duration-700 hover:scale-105"
+                />
+              </div>
+              <div className="p-8">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-[#D7B07A]">
+                  0{index + 1}
+                </p>
+                <h2 className="mt-5 font-serif text-3xl leading-[1.04] tracking-[-0.03em]">
+                  {service.title}
+                </h2>
+                <p className="mt-5 text-sm leading-7 text-[#FAF9F6]/72 md:text-base">
+                  {service.summary}
+                </p>
+                <p className="mt-5 text-sm leading-7 text-[#FAF9F6]/58 md:text-base">
+                  {service.outcome}
+                </p>
+                <Link
+                  href={`/services/domaines/${service.slug}`}
+                  className="mt-8 inline-flex items-center rounded-full border border-[#FAF9F6]/14 px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-[#FAF9F6]/82 transition-colors hover:border-[#FAF9F6]/28 hover:text-[#FAF9F6]"
+                >
+                  {site.domains.cta}
+                </Link>
+              </div>
             </Reveal>
           ))}
         </div>

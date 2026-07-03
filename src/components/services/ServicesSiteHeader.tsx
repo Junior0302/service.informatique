@@ -9,10 +9,10 @@ export default function ServicesSiteHeader({ locale }: { locale: string }) {
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-6 md:px-12 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-[10px] uppercase tracking-[0.28em] text-[#D7B07A]">
-            Genesis Services
+            Genesis Service Informatique
           </p>
           <p className="mt-2 font-serif text-2xl text-[#FAF9F6] md:text-3xl">
-            Site expertise dedie
+            Interventions terrain et accompagnement
           </p>
         </div>
 

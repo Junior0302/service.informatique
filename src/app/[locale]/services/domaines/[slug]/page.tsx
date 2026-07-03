@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 import { Link } from "@/i18n/routing";
 import {
@@ -27,20 +28,37 @@ export default async function ServicesDomainDetailPage({
   return (
     <main className="bg-[#140d0a] px-6 pb-20 text-[#FAF9F6] md:px-12">
       <div className="mx-auto max-w-7xl py-16 md:py-20">
-        <Reveal className="rounded-[40px] border border-[#FAF9F6]/10 bg-[#241710]/70 p-8 md:p-12">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[#D7B07A]">
-            Genesis Services
-          </p>
-          <h1 className="mt-6 max-w-5xl font-serif text-5xl leading-[0.98] tracking-[-0.04em] md:text-7xl">
-            {service.title}
-          </h1>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-[#FAF9F6]/74">
-            {service.summary}
-          </p>
-          <p className="mt-6 max-w-4xl text-base leading-8 text-[#FAF9F6]/68 md:text-lg">
-            {service.problem}
-          </p>
-        </Reveal>
+        <section className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+          <Reveal className="rounded-[40px] border border-[#FAF9F6]/10 bg-[#241710]/70 p-8 md:p-12">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-[#D7B07A]">
+              Genesis Service Informatique
+            </p>
+            <h1 className="mt-6 max-w-5xl font-serif text-5xl leading-[0.98] tracking-[-0.04em] md:text-7xl">
+              {service.title}
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[#FAF9F6]/74">
+              {service.summary}
+            </p>
+            <p className="mt-6 max-w-4xl text-base leading-8 text-[#FAF9F6]/68 md:text-lg">
+              {service.problem}
+            </p>
+          </Reveal>
+
+          <Reveal
+            delay={80}
+            className="overflow-hidden rounded-[40px] border border-[#FAF9F6]/10 bg-[#20140f]"
+          >
+            <div className="aspect-[4/3] overflow-hidden">
+              <Image
+                src={service.image}
+                alt={service.alt}
+                width={1260}
+                height={945}
+                className="h-full w-full object-cover opacity-84"
+              />
+            </div>
+          </Reveal>
+        </section>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#20140f] p-8">
@@ -91,6 +109,17 @@ export default async function ServicesDomainDetailPage({
             </div>
           </Reveal>
 
+          <Reveal delay={40} className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#20140f] p-8 md:p-10">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
+              {site.common.fieldActions}
+            </p>
+            <ul className="mt-6 space-y-4 text-sm leading-7 text-[#FAF9F6]/74 md:text-base">
+              {service.fieldActions.map((item) => (
+                <li key={item}>- {item}</li>
+              ))}
+            </ul>
+          </Reveal>
+
           <Reveal delay={80} className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#241710] p-8 md:p-10">
             <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
               {site.common.faq}
@@ -109,6 +138,12 @@ export default async function ServicesDomainDetailPage({
         </section>
 
         <Reveal className="mt-10 rounded-[36px] border border-[#FAF9F6]/10 bg-gradient-to-br from-[#241710] to-[#1a100c] p-8 md:p-12">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-[#D7B07A]">
+            {site.common.outcome}
+          </p>
+          <p className="mt-5 max-w-4xl text-lg leading-8 text-[#FAF9F6]/78 md:text-[1.2rem]">
+            {service.outcome}
+          </p>
           <h2 className="max-w-4xl font-serif text-4xl leading-[1.02] md:text-5xl">
             {site.home.finalTitle}
           </h2>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 import { Link } from "@/i18n/routing";
 import { getServicesSiteContent } from "@/lib/servicesSiteContent";
@@ -62,6 +63,47 @@ export default async function ServicesHomePage({
         </section>
 
         <section className="py-12 md:py-20">
+          <Reveal className="max-w-5xl">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
+              {site.home.interventionsTitle}
+            </p>
+            <h2 className="mt-6 font-serif text-4xl leading-tight md:text-6xl">
+              {site.home.interventionsLead}
+            </h2>
+          </Reveal>
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            {site.home.interventions.map((item, index) => (
+              <Reveal
+                key={item.title}
+                delay={index * 50}
+                className="overflow-hidden rounded-[30px] border border-[#FAF9F6]/10 bg-[#20140f]"
+              >
+                <div className="aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    width={1260}
+                    height={750}
+                    className="h-full w-full object-cover opacity-82 transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+                <div className="p-7">
+                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#D7B07A]">
+                    {item.tag}
+                  </p>
+                  <h3 className="mt-4 font-serif text-3xl leading-[1.04] tracking-[-0.03em]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-[#FAF9F6]/72 md:text-base">
+                    {item.text}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        <section className="py-12 md:py-20">
           <Reveal className="max-w-4xl">
             <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
               {site.home.servicesTitle}
@@ -75,23 +117,37 @@ export default async function ServicesHomePage({
               <Reveal
                 key={service.slug}
                 delay={index * 60}
-                className="rounded-[30px] border border-[#FAF9F6]/10 bg-[#20140f] p-7"
+                className="overflow-hidden rounded-[30px] border border-[#FAF9F6]/10 bg-[#20140f]"
               >
-                <p className="text-[10px] uppercase tracking-[0.24em] text-[#D7B07A]">
-                  Genesis Services
-                </p>
-                <h3 className="mt-5 font-serif text-3xl leading-[1.02] tracking-[-0.03em]">
-                  {service.title}
-                </h3>
-                <p className="mt-5 text-sm leading-7 text-[#FAF9F6]/72 md:text-base">
-                  {service.summary}
-                </p>
-                <Link
-                  href={`/services/domaines/${service.slug}`}
-                  className="mt-8 inline-flex items-center text-[11px] uppercase tracking-[0.24em] text-[#FAF9F6]/82 transition-colors hover:text-[#FAF9F6]"
-                >
-                  {site.common.discover}
-                </Link>
+                <div className="aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.alt}
+                    width={1260}
+                    height={750}
+                    className="h-full w-full object-cover opacity-80 transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+                <div className="p-7">
+                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#D7B07A]">
+                    Genesis Service Informatique
+                  </p>
+                  <h3 className="mt-5 font-serif text-3xl leading-[1.02] tracking-[-0.03em]">
+                    {service.title}
+                  </h3>
+                  <p className="mt-5 text-sm leading-7 text-[#FAF9F6]/72 md:text-base">
+                    {service.summary}
+                  </p>
+                  <p className="mt-5 text-sm leading-7 text-[#FAF9F6]/58 md:text-base">
+                    {service.outcome}
+                  </p>
+                  <Link
+                    href={`/services/domaines/${service.slug}`}
+                    className="mt-8 inline-flex items-center text-[11px] uppercase tracking-[0.24em] text-[#FAF9F6]/82 transition-colors hover:text-[#FAF9F6]"
+                  >
+                    {site.common.discover}
+                  </Link>
+                </div>
               </Reveal>
             ))}
           </div>
