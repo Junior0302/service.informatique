@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { businessEmail } from "@/lib/seo";
 import { getServicesSiteContent } from "@/lib/servicesSiteContent";
@@ -8,11 +9,15 @@ export default function ServicesSiteFooter({ locale }: { locale: string }) {
 
   return (
     <section className="rounded-[28px] bg-[#082556] text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
-      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 md:px-8 lg:grid-cols-[1.1fr_0.9fr_0.9fr]">
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 md:px-8 lg:grid-cols-[1.1fr_0.75fr_0.75fr_0.9fr]">
         <div className="max-w-xl">
-          <p className="text-[10px] uppercase tracking-[0.28em] text-blue-200/80">
-            Genesis Service Informatique
-          </p>
+          <Image
+            src="/images/branding/service-info-logo.svg"
+            alt="Genesis Service Informatique"
+            width={210}
+            height={60}
+            className="h-auto w-[178px] md:w-[210px]"
+          />
           <p className="mt-4 font-serif text-3xl leading-tight text-white md:text-4xl">
             {site.home.finalTitle}
           </p>
@@ -52,7 +57,7 @@ export default function ServicesSiteFooter({ locale }: { locale: string }) {
             <a href={`mailto:${businessEmail}`} className="transition-colors hover:text-white">
               {businessEmail}
             </a>
-            <Link href="/" className="transition-colors hover:text-white">
+            <Link href="/services" className="transition-colors hover:text-white">
               {site.nav.mainSite}
             </Link>
           </div>

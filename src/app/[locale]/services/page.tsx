@@ -81,7 +81,7 @@ export default async function ServicesHomePage({
               className="relative min-h-[320px] overflow-hidden bg-slate-200 lg:min-h-full"
             >
               <Image
-                src="/api/service-images/setup-purple.jpg"
+                src="/images/service-info/setup-purple.jpg"
                 alt="Bureau informatique moderne pret pour une intervention sur site"
                 fill
                 priority

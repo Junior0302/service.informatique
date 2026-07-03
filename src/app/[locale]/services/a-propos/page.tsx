@@ -62,7 +62,7 @@ export default async function ServicesAboutPage({
           >
             <div className="relative aspect-[4/3]">
               <Image
-                src="/api/service-images/cablage-detail.jpg"
+                src="/images/service-info/cablage-detail.jpg"
                 alt="Technicien devant une installation reseau et baie informatique"
                 fill
                 className="object-cover"

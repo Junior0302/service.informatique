@@ -107,12 +107,12 @@ type ServicesSiteContent = {
 };
 
 const interventionImages = {
-  network: "/api/service-images/cablage-baie.jpg",
-  classroom: "/api/service-images/salle-equipee.jpg",
-  woodenDesk: "/api/service-images/setup-premium.jpg",
-  blueDesk: "/api/service-images/double-screen-blue.jpg",
-  officeDesk: "/api/service-images/desk-clean.jpg",
-  userSupport: "/api/service-images/screen-support.jpg",
+  network: "/images/service-info/cablage-baie.jpg",
+  classroom: "/images/service-info/salle-equipee.jpg",
+  woodenDesk: "/images/service-info/setup-premium.jpg",
+  blueDesk: "/images/service-info/double-screen-blue.jpg",
+  officeDesk: "/images/service-info/desk-clean.jpg",
+  userSupport: "/images/service-info/screen-support.jpg",
 } as const;
 
 export const serviceSlugs = [
