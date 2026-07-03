@@ -1,15 +1,45 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import ServicesActionButtons from "@/components/services/ServicesActionButtons";
+import ServicesJsonLd from "@/components/services/ServicesJsonLd";
 import Reveal from "@/components/ui/Reveal";
 import { Link } from "@/i18n/routing";
+import ServicesFaqAccordion from "@/components/services/ServicesFaqAccordion";
 import {
+  getServicesLocale,
   getServicesSiteContent,
   getServicesSiteService,
   serviceSlugs,
 } from "@/lib/servicesSiteContent";
+import { buildFaqSchema, buildServiceSchema, buildServicesMetadata } from "@/lib/servicesSeo";
 
 export function generateStaticParams() {
   return serviceSlugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const safeLocale = getServicesLocale(locale);
+  const service = getServicesSiteService(locale, slug);
+
+  if (!service) {
+    return buildServicesMetadata({
+      title: "Service introuvable",
+      description: "La prestation demandee est introuvable.",
+      canonicalPath: `/${safeLocale}/services/domaines`,
+    });
+  }
+
+  return buildServicesMetadata({
+    title: `${service.title} | Genesis Service Informatique`,
+    description: service.summary,
+    canonicalPath: `/${safeLocale}/services/domaines/${service.slug}`,
+  });
 }
 
 export default async function ServicesDomainDetailPage({
@@ -25,28 +55,39 @@ export default async function ServicesDomainDetailPage({
     notFound();
   }
 
+  const schemas = [
+    buildServiceSchema({
+      title: service.title,
+      description: service.summary,
+      canonicalPath: `/${getServicesLocale(locale)}/services/domaines/${service.slug}`,
+    }),
+    buildFaqSchema(service.faq),
+  ];
+
   return (
-    <main className="bg-[#140d0a] px-6 pb-20 text-[#FAF9F6] md:px-12">
-      <div className="mx-auto max-w-7xl py-16 md:py-20">
-        <section className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
-          <Reveal className="rounded-[40px] border border-[#FAF9F6]/10 bg-[#241710]/70 p-8 md:p-12">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[#D7B07A]">
+    <main className="px-6 pb-20 pt-6 text-slate-950 md:px-12">
+      <ServicesJsonLd data={schemas} />
+      <div className="mx-auto max-w-7xl">
+        <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <Reveal className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.06)] md:p-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
               Genesis Service Informatique
             </p>
-            <h1 className="mt-6 max-w-5xl font-serif text-5xl leading-[0.98] tracking-[-0.04em] md:text-7xl">
+            <h1 className="mt-4 max-w-5xl text-3xl font-semibold leading-tight tracking-[-0.03em] text-slate-950 md:text-5xl">
               {service.title}
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-[#FAF9F6]/74">
+            <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">
               {service.summary}
             </p>
-            <p className="mt-6 max-w-4xl text-base leading-8 text-[#FAF9F6]/68 md:text-lg">
+            <p className="mt-5 max-w-4xl text-base leading-8 text-slate-600 md:text-lg">
               {service.problem}
             </p>
+            <ServicesActionButtons className="mt-6" />
           </Reveal>
 
           <Reveal
             delay={80}
-            className="overflow-hidden rounded-[40px] border border-[#FAF9F6]/10 bg-[#20140f]"
+            className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.06)]"
           >
             <div className="aspect-[4/3] overflow-hidden">
               <Image
@@ -54,33 +95,33 @@ export default async function ServicesDomainDetailPage({
                 alt={service.alt}
                 width={1260}
                 height={945}
-                className="h-full w-full object-cover opacity-84"
+                className="h-full w-full object-cover"
               />
             </div>
           </Reveal>
         </section>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <Reveal className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#20140f] p-8">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
+        <div className="mt-6 grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+          <Reveal className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
               {site.common.deliverables}
             </p>
-            <ul className="mt-6 space-y-4 text-sm leading-7 text-[#FAF9F6]/74 md:text-base">
+            <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-600 md:text-base">
               {service.deliverables.map((item) => (
                 <li key={item}>- {item}</li>
               ))}
             </ul>
           </Reveal>
 
-          <Reveal delay={80} className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#20140f] p-8">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
+          <Reveal delay={80} className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
               {site.common.audience}
             </p>
-            <ul className="mt-6 grid gap-4 md:grid-cols-2">
+            <ul className="mt-5 grid gap-3 md:grid-cols-2">
               {service.audience.map((item) => (
                 <li
                   key={item}
-                  className="rounded-2xl border border-[#FAF9F6]/8 bg-[#2A1C15]/50 px-5 py-4 text-sm text-[#FAF9F6]/76 md:text-base"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 md:text-base"
                 >
                   {item}
                 </li>
@@ -89,19 +130,19 @@ export default async function ServicesDomainDetailPage({
           </Reveal>
         </div>
 
-        <section className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <Reveal className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#20140f] p-8 md:p-10">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
+        <section className="mt-6 grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+          <Reveal className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)] md:p-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
               {site.common.process}
             </p>
-            <div className="mt-8 space-y-8">
+            <div className="mt-6 space-y-6">
               {service.process.map((step, index) => (
-                <div key={step.title} className="border-b border-[#FAF9F6]/10 pb-6 last:border-b-0">
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#D7B07A]">
+                <div key={step.title} className="border-b border-slate-100 pb-5 last:border-b-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0f3b97]">
                     0{index + 1}
                   </p>
-                  <h2 className="mt-3 font-serif text-3xl">{step.title}</h2>
-                  <p className="mt-3 text-sm leading-7 text-[#FAF9F6]/72 md:text-base">
+                  <h2 className="mt-2 text-xl font-semibold text-slate-950">{step.title}</h2>
+                  <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base">
                     {step.text}
                   </p>
                 </div>
@@ -109,61 +150,55 @@ export default async function ServicesDomainDetailPage({
             </div>
           </Reveal>
 
-          <Reveal delay={40} className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#20140f] p-8 md:p-10">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
+          <Reveal delay={40} className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)] md:p-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
               {site.common.fieldActions}
             </p>
-            <ul className="mt-6 space-y-4 text-sm leading-7 text-[#FAF9F6]/74 md:text-base">
+            <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-600 md:text-base">
               {service.fieldActions.map((item) => (
                 <li key={item}>- {item}</li>
               ))}
             </ul>
           </Reveal>
 
-          <Reveal delay={80} className="rounded-[32px] border border-[#FAF9F6]/10 bg-[#241710] p-8 md:p-10">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[#FAF9F6]/45">
+          <Reveal delay={80} className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)] md:p-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
               {site.common.faq}
             </p>
-            <div className="mt-8 space-y-6">
-              {service.faq.map((item) => (
-                <div key={item.question} className="border-b border-[#FAF9F6]/10 pb-6 last:border-b-0">
-                  <h2 className="font-serif text-2xl leading-tight">{item.question}</h2>
-                  <p className="mt-3 text-sm leading-7 text-[#FAF9F6]/70 md:text-base">
-                    {item.answer}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-5">
+              <ServicesFaqAccordion items={service.faq} />
             </div>
           </Reveal>
         </section>
 
-        <Reveal className="mt-10 rounded-[36px] border border-[#FAF9F6]/10 bg-gradient-to-br from-[#241710] to-[#1a100c] p-8 md:p-12">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[#D7B07A]">
+        <Reveal className="mt-6 rounded-[28px] bg-[#082556] p-6 text-white shadow-[0_24px_60px_rgba(15,23,42,0.14)] md:p-8">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200/80">
             {site.common.outcome}
           </p>
-          <p className="mt-5 max-w-4xl text-lg leading-8 text-[#FAF9F6]/78 md:text-[1.2rem]">
+          <p className="mt-4 max-w-4xl text-base leading-8 text-blue-50/84 md:text-lg">
             {service.outcome}
           </p>
-          <h2 className="max-w-4xl font-serif text-4xl leading-[1.02] md:text-5xl">
+          <h2 className="mt-5 max-w-4xl text-3xl font-semibold leading-tight md:text-4xl">
             {site.home.finalTitle}
           </h2>
-          <p className="mt-5 max-w-3xl text-base leading-8 text-[#FAF9F6]/72 md:text-lg">
+          <p className="mt-4 max-w-3xl text-base leading-8 text-blue-50/78 md:text-lg">
             {site.home.finalText}
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/services/contact"
-              className="inline-flex items-center rounded-full border border-[#FAF9F6]/20 px-7 py-3 text-xs uppercase tracking-[0.24em] text-[#FAF9F6]/88 transition-colors hover:border-[#FAF9F6]/38 hover:text-[#FAF9F6]"
+              href="/services/domaines"
+              className="inline-flex items-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#082556] transition hover:-translate-y-0.5 hover:bg-slate-100"
             >
               {site.common.contactCta}
             </Link>
             <Link
               href="/services/domaines"
-              className="inline-flex items-center rounded-full border border-[#FAF9F6]/10 px-7 py-3 text-xs uppercase tracking-[0.24em] text-[#FAF9F6]/65 transition-colors hover:border-[#FAF9F6]/28 hover:text-[#FAF9F6]"
+              className="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/8"
             >
               {site.nav.domaines}
             </Link>
           </div>
+          <ServicesActionButtons variant="dark" className="mt-4" />
         </Reveal>
       </div>
     </main>

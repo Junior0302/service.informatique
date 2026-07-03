@@ -6,19 +6,19 @@ export default function manifest(): MetadataRoute.Manifest {
     name: siteName,
     short_name: siteName,
     description:
-      "Genesis Connect - studio numerique premium, support informatique, creation web, SEO local et cloud.",
+      "Service informatique de proximite : installation de postes, maintenance, assistance utilisateur, cablage reseau, Wi-Fi et interventions sur site.",
     start_url: "/fr",
     display: "standalone",
-    background_color: "#2A1C15",
-    theme_color: "#2A1C15",
+    background_color: "#f3f5f8",
+    theme_color: "#082556",
     icons: [
       {
-        src: "/icon.png",
+        src: "/images/favicon/10.png",
         sizes: "512x512",
         type: "image/png",
       },
       {
-        src: "/apple-icon.png",
+        src: "/images/favicon/9.png",
         sizes: "512x512",
         type: "image/png",
       },

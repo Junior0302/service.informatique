@@ -107,18 +107,12 @@ type ServicesSiteContent = {
 };
 
 const interventionImages = {
-  network:
-    "https://images.pexels.com/photos/2881228/pexels-photo-2881228.jpeg?auto=compress&w=1260&h=750&dpr=1",
-  classroom:
-    "https://images.pexels.com/photos/18471480/pexels-photo-18471480/free-photo-of-a-classroom-with-rows-of-computers-and-monitors.jpeg?auto=compress&w=1260&h=750&dpr=1",
-  woodenDesk:
-    "https://images.pexels.com/photos/12786595/pexels-photo-12786595.jpeg?auto=compress&w=1260&h=750&dpr=1",
-  blueDesk:
-    "https://images.pexels.com/photos/17789647/pexels-photo-17789647/free-photo-of-view-of-a-computer-and-laptop-standing-in-a-desk-in-blue-led-lighting.jpeg?auto=compress&w=1260&h=750&dpr=1",
-  officeDesk:
-    "https://images.pexels.com/photos/8297861/pexels-photo-8297861.jpeg?auto=compress&w=1260&h=750&dpr=1",
-  userSupport:
-    "https://images.pexels.com/photos/16007661/pexels-photo-16007661/free-photo-of-young-woman-sitting-in-a-computer-classroom-and-using-a-laptop.jpeg?auto=compress&w=1260&h=750&dpr=1",
+  network: "/api/service-images/cablage-baie.jpg",
+  classroom: "/api/service-images/salle-equipee.jpg",
+  woodenDesk: "/api/service-images/setup-premium.jpg",
+  blueDesk: "/api/service-images/double-screen-blue.jpg",
+  officeDesk: "/api/service-images/desk-clean.jpg",
+  userSupport: "/api/service-images/screen-support.jpg",
 } as const;
 
 export const serviceSlugs = [
@@ -258,30 +252,39 @@ const content: Record<ServicesLocale, ServicesSiteContent> = {
         "Ici, on parle d'installations, de postes, d'assistance, de cablage et de maintenance reelle. Le but est de rendre une intervention lisible, utile et actionnable.",
     },
     about: {
-      eyebrow: "A propos",
-      title: "Un site recentre sur les interventions physiques et l'accompagnement.",
+      eyebrow: "A propos de nous",
+      title: "Votre partenaire informatique de proximite",
       description:
-        "Le depot `service.informatique` doit representer un vrai site de service info: moins de discours studio, plus de terrain, plus d'installations reelles et plus de clarte pour des demandes concretes.",
-      valuesTitle: "Ce qui guide le site",
+        "Nous accompagnons les entreprises, independants, associations et petites structures dans l'installation, la maintenance et le bon fonctionnement de leur environnement informatique.\n\nNotre objectif est simple : fournir un service informatique fiable, reactif et humain, afin que vous puissiez travailler dans les meilleures conditions, sans vous soucier des problemes techniques.\n\nContrairement a un simple support a distance, nous intervenons directement sur site pour installer, configurer, depanner et optimiser vos equipements. Chaque intervention est realisee avec methode, dans le respect de vos contraintes et de votre activite.",
+      valuesTitle: "Nos valeurs",
       values: [
         {
-          title: "Terrain",
-          text: "Le contenu doit decrire ce qui est fait physiquement: brancher, raccorder, installer, tester, transmettre.",
+          title: "Proximite",
+          text: "Une presence sur site et un interlocuteur a votre ecoute pour comprendre votre environnement reel.",
         },
         {
-          title: "Lisibilite",
-          text: "Chaque page doit aider a comprendre rapidement si l'intervention correspond au besoin reel.",
+          title: "Reactivite",
+          text: "Des interventions rapides pour limiter les interruptions d'activite et remettre vos equipes au travail vite.",
         },
         {
-          title: "Continuite",
-          text: "L'objectif n'est pas seulement d'installer mais de laisser un environnement stable, utilisable et compris.",
+          title: "Fiabilite",
+          text: "Des solutions durables adaptees a vos besoins, a vos usages et a votre niveau d'equipement.",
+        },
+        {
+          title: "Simplicite",
+          text: "Un langage clair, sans jargon technique inutile, pour vous aider a prendre les bonnes decisions.",
+        },
+        {
+          title: "Professionnalisme",
+          text: "Des prestations realisees selon les bonnes pratiques du secteur avec methode et rigueur.",
         },
       ],
-      approachTitle: "Approche",
+      approachTitle: "Notre mission",
       approach: [
-        "Un langage plus direct, centre sur l'intervention sur site et le resultat concret.",
-        "Des pages structurees par besoin physique: postes, reseau, assistance, maintenance, sauvegarde.",
-        "Une prise de contact qui permet de qualifier le lieu, le volume d'equipement et les contraintes techniques.",
+        "Permettre a chaque entreprise de disposer d'un environnement informatique stable, securise et performant grace a un accompagnement concret et des interventions de terrain.",
+        "Nous intervenons notamment pour l'installation et le renouvellement de postes informatiques, le deploiement de materiel, la maintenance preventive et corrective, l'assistance utilisateur, les reseaux filaires et Wi-Fi, la sauvegarde et la remise en service rapide.",
+        "Pourquoi nous choisir ? Interventions directement sur site, interlocuteur unique, solutions concretes, approche orientee resultats et prestations claires sans complexite inutile.",
+        "Chaque intervention est realisee avec le meme objectif : offrir un environnement informatique fiable, securise et performant pour que vos equipes puissent travailler sereinement au quotidien.",
       ],
     },
     faqPage: {

@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Geist_Mono, Geist } from "next/font/google";
 import "../globals.css";
-import { defaultSEO, pageSeo, type SeoLocale } from "@/lib/seo";
+import { defaultSEO } from "@/lib/seo";
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
@@ -51,26 +51,42 @@ export async function generateMetadata({
   params: Promise<{locale: string}>;
 }): Promise<Metadata> {
   const {locale} = await params;
-  const safeLocale = (["fr", "en", "zh"].includes(locale) ? locale : "fr") as SeoLocale;
-  const localizedHomeSeo = pageSeo["/"][safeLocale];
+  const localizedTitles = {
+    fr: "Genesis Service Informatique | Installation, assistance et maintenance sur site",
+    en: "Genesis IT Services | On-site setup, support and maintenance",
+    zh: "Genesis IT Services | 现场安装、支持与维护",
+  } as const;
+  const localizedDescriptions = {
+    fr: "Site dedie aux interventions terrain: installation de postes, support utilisateurs, maintenance, cablage reseau, Wi-Fi et assistance de proximite.",
+    en: "Dedicated on-site IT services: workstation setup, user support, maintenance, cabling, Wi-Fi and field assistance.",
+    zh: "专注于现场 IT 服务：工位安装、用户支持、维护、布线、Wi-Fi 与现场协助。",
+  } as const;
+  const safeLocale = locale in localizedTitles ? (locale as keyof typeof localizedTitles) : "fr";
+
   return {
     ...defaultSEO,
-    title: localizedHomeSeo.title,
-    description: localizedHomeSeo.description,
+    metadataBase: defaultSEO.metadataBase,
+    title: localizedTitles[safeLocale],
+    description: localizedDescriptions[safeLocale],
     keywords: defaultSEO.keywords,
     openGraph: {
       ...defaultSEO.openGraph,
-      title: localizedHomeSeo.title,
-      description: localizedHomeSeo.description,
+      title: localizedTitles[safeLocale],
+      description: localizedDescriptions[safeLocale],
       locale: locale,
     },
     twitter: {
       ...defaultSEO.twitter,
-      title: localizedHomeSeo.title,
-      description: localizedHomeSeo.description,
+      title: localizedTitles[safeLocale],
+      description: localizedDescriptions[safeLocale],
     },
   };
 }
+
+export const viewport: Viewport = {
+  themeColor: "#f3f5f8",
+  colorScheme: "light",
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
